@@ -207,6 +207,10 @@ h2{
   line-height:1.4;
 }
 
+
+/* Wortmarke im Hero: die Original-Logodatei freigestellt (Runde 4, Thorsten 06.09.). */
+.hero-mark{display:block;width:min(720px,88vw);height:auto;margin:0 auto}
+
 .hero-line{
   margin-top:clamp(34px,5vh,58px);
   max-width:60ch;
