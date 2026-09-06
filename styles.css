@@ -1,7 +1,7 @@
 /* Thomas Mercantile — thomasmercantile.de
-   Eine Farbwelt: durchgehend Dunkelgrün, kein Hell-Dunkel-Wechsel.
-   --green ist der aus der Logodatei gemessene Hintergrund, damit der
-   Bildausschnitt im Hero nahtlos auf der Fläche liegt. */
+   Eine Farbwelt: durchgehend Dunkelgrün, kein Hell-Dunkel-Wechsel, flache
+   Flächen ohne Korn. --green ist der aus der Logodatei gemessene Grund; die
+   Wortmarke ist als Text gesetzt, es liegt kein Logobild mehr auf der Seite. */
 :root{
   --green:#384035;
   --green-rgb:56,64,53;
@@ -87,21 +87,6 @@ p{margin:0}
 a{color:inherit}
 img,svg{display:block;max-width:100%}
 
-/* Feines, statisches Korn über der ganzen Seite, damit die Bildtextur des
-   Logos und die CSS-Flächen als eine Oberfläche wirken. */
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  pointer-events:none;
-  opacity:.035;
-  mix-blend-mode:soft-light;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27220%27 height=%27220%27%3E%3Cfilter id=%27n%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%27.82%27 numOctaves=%273%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27220%27 height=%27220%27 filter=%27url(%23n)%27/%3E%3C/svg%3E");
-  background-repeat:repeat;
-  background-size:220px 220px;
-}
-
 :where(a,button):focus-visible{
   outline:2px solid var(--tan);
   outline-offset:3px;
@@ -148,6 +133,32 @@ h2{
 .wm-line-1{font-size:1.15rem;letter-spacing:.35em;margin-right:-.35em}
 .wm-line-2{font-size:.62rem;letter-spacing:.35em;margin-right:-.35em}
 
+/* ---------- Sprachumschalter ---------- */
+.topbar{
+  position:absolute;
+  top:0;left:0;right:0;
+  padding-top:22px;
+  z-index:5;
+}
+.topbar .wrap{display:flex;justify-content:flex-end}
+.langtoggle{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--sans);
+  font-size:.7rem;
+  letter-spacing:.18em;
+  color:var(--cream-70);
+}
+.langtoggle button{
+  background:none;border:none;padding:0;margin:0;
+  font:inherit;letter-spacing:inherit;
+  color:var(--cream-70);
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:color .3s var(--ease);
+}
+.langtoggle button:hover{color:var(--cream)}
+.langtoggle button[aria-pressed="true"]{color:var(--cream)}
+
 /* ---------- Hero ---------- */
 .hero{
   background:var(--green);
@@ -158,33 +169,47 @@ h2{
 }
 .hero-inner{display:flex;flex-direction:column;align-items:center;width:100%}
 
-.hero-logo{
-  margin:0;
-  position:relative;
-  width:min(100%,720px);
-  line-height:0;
+/* Wortmarke im Hero: Text, lokale Montserrat, kein Bild. Werte nach Runde 3. */
+.hero .wordmark{
+  align-items:center;
+  gap:clamp(8px,1.2vw,16px);
+  text-rendering:optimizeLegibility;
 }
-.hero-logo img{width:100%;height:auto}
-/* Die Ränder des Bildausschnitts laufen in die Fläche aus, damit keine Kante
-   sichtbar wird. Die Bilddatei selbst bleibt unverändert. */
-.hero-logo::before,
-.hero-logo::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
+.hero .wm-line-1{
+  font-weight:400;
+  font-size:clamp(2.2rem,6vw,4.6rem);
+  letter-spacing:.42em;
+  margin-right:-.42em;
+  line-height:1.05;
 }
-.hero-logo::before{
-  background:
-    linear-gradient(to bottom, var(--green) 0, rgba(var(--green-rgb),0) 15%),
-    linear-gradient(to top, var(--green) 0, rgba(var(--green-rgb),0) 15%);
+.hero .wm-line-2{
+  font-weight:300;
+  font-size:clamp(.836rem,2.28vw,1.748rem); /* 38 % von THOMAS */
+  letter-spacing:.38em;
+  margin-right:-.38em;
+  line-height:1.2;
 }
-.hero-logo::after{
-  background:
-    linear-gradient(to right, var(--green) 0, rgba(var(--green-rgb),0) 7%),
-    linear-gradient(to left, var(--green) 0, rgba(var(--green-rgb),0) 7%);
+.wm-rule{
+  display:block;
+  width:72px;
+  height:2px;
+  background:var(--tan);
+  margin:28px auto;
+}
+.wm-claim{
+  font-family:var(--sans);
+  font-weight:300;
+  font-size:clamp(12px,1.1vw,13px);
+  letter-spacing:.35em;
+  margin-right:-.35em;
+  text-transform:uppercase;
+  color:var(--cream-70);
+  line-height:1.4;
 }
 
 .hero-line{
-  margin-top:clamp(26px,4vh,44px);
-  max-width:52ch;
+  margin-top:clamp(34px,5vh,58px);
+  max-width:60ch;
   font-size:clamp(.95rem,1.7vw,1.05rem);
   line-height:1.8;
   color:var(--cream-70);
@@ -197,16 +222,6 @@ h2{
 }
 .band-base{background:var(--green)}
 .band-deep{background:var(--green-deep)}
-
-.threes{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:clamp(34px,4.5vw,56px);
-}
-@media (min-width:760px){
-  .threes{grid-template-columns:repeat(3,1fr);gap:clamp(30px,4vw,60px)}
-}
-.threes p{color:var(--cream-70);max-width:32ch}
 
 /* ---------- Markenkarte ---------- */
 .brand-grid{
@@ -281,6 +296,7 @@ h2{
 }
 .site-footer .wordmark{margin-bottom:22px}
 .foot-line{margin-top:7px;color:var(--cream-70)}
+.site-footer .wrap > .foot-line:first-child{margin-top:0}
 .site-footer a{color:var(--cream);text-decoration:none;border-bottom:1px solid var(--line)}
 .site-footer a:hover{border-bottom-color:var(--tan)}
 .footnav{
@@ -313,6 +329,13 @@ h2{
   font-family:var(--serif);font-weight:500;
   font-size:clamp(1.9rem,4vw,2.6rem);
   color:var(--cream);margin:0 0 clamp(30px,4vw,46px);
+}
+.legal-lead{
+  max-width:64ch;
+  color:var(--cream-70);
+  font-size:.94rem;
+  padding-bottom:clamp(26px,3.5vw,34px);
+  border-bottom:1px solid var(--line);
 }
 .legal-block{margin-top:clamp(28px,4vw,40px);max-width:64ch}
 .legal-block h2{font-size:clamp(1.15rem,2.2vw,1.4rem);margin-bottom:12px}

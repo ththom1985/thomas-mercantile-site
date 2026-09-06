@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Thomas Mercantile">
   <rect width="64" height="64" rx="10" fill="#384035"/>
-  <text x="32" y="38" text-anchor="middle"
+  <text x="32" y="41" text-anchor="middle"
         font-family="Montserrat, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif"
-        font-weight="300" font-size="25" letter-spacing="1.5" fill="#F2EEE4">TM</text>
-  <rect x="21" y="45" width="22" height="1.6" fill="#C8A87A"/>
+        font-weight="400" font-size="26" letter-spacing="2" fill="#F2EEE4">TM</text>
 </svg>
