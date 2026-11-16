@@ -250,6 +250,7 @@ h2{
 }
 .brand-mark{display:block;color:var(--cream);width:min(180px,60%)}
 .brand-mark svg{width:100%;height:auto}
+.brand-mark--square{width:min(92px,36%)}
 .brand-text{
   display:block;
   margin-top:clamp(22px,3vw,30px);
